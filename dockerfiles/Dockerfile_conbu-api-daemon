@@ -17,9 +17,16 @@ RUN bundle install
 RUN mkdir /root/.pit
 COPY default.yaml /root/.pit/
 
-EXPOSE 8282
+RUN sed -i -e s/zabbix\.conbu/zabbix3.conbu/g daemon
 
-RUN sed -ie s/zabbix\.conbu/zabbix3.conbu/g daemon
+# allow acess from conbu-api-server
+RUN sed -i -e "/start_service/i \ \ require \'drb/acl\'" daemon
+RUN sed -i -e '/start_service/i \ \ acl = ACL.new(%w{allow all})' daemon
+RUN sed -i -e '/start_service/i \ \ DRb.install_acl(acl)' daemon
+RUN sed -i -e 's/localhost:8282/conbu-api-daemon:8282/g' daemon
+
+# change settings according to conference
+RUN sed -i -e 's/(AP-[0-9]{3})/(AP[0-9]{3})/g' daemon
 
 CMD ["bundle", "exec", "ruby", "daemon"]
 

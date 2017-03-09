@@ -16,7 +16,13 @@ RUN bundle install
 
 EXPOSE 9292
 
-RUN sed -ie s/10\.255\.254\.101/0.0.0.0/g config.ru
+RUN sed -i -e s/10\.255\.254\.101/0.0.0.0/g config.ru
+
+# connect to conbu-api-daemon
+RUN sed -i -e 's/localhost:8282/conbu-api-daemon:8282/g' app.rb
+
+# change settings according to conference
+RUN sed -i -e 's/phpcon2015/droidkaigi2017/g' app.rb
 
 CMD ["bundle", "exec", "rackup", "-E", "production"]
 

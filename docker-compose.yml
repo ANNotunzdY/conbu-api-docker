@@ -1,0 +1,13 @@
+version: '3'
+services:
+  conbu-api-server:
+    build:
+      context: ./dockerfiles
+      dockerfile: Dockerfile_conbu-api-server
+    ports:
+      - "9292:9292"
+  conbu-api-daemon:
+    build:
+      context: ./dockerfiles
+      dockerfile: Dockerfile_conbu-api-daemon
+
