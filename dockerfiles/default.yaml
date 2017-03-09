@@ -1,0 +1,4 @@
+---
+zabbix:
+  :user: zabbix-api-user
+  :password: change-me
