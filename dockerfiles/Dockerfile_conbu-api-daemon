@@ -26,7 +26,7 @@ RUN sed -i -e '/start_service/i \ \ DRb.install_acl(acl)' daemon
 RUN sed -i -e 's/localhost:8282/conbu-api-daemon:8282/g' daemon
 
 # change settings according to conference
-RUN sed -i -e 's/(AP-[0-9]{3})/(AP[0-9]{3})/g' daemon
+RUN sed -i 's/AP-\[0-9\]{3}/AP[0-9]{1,3}/g' daemon
 
 CMD ["bundle", "exec", "ruby", "daemon"]
 
